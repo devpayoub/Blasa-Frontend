@@ -105,6 +105,42 @@ while the session rehydrates). Prefer skeletons over spinners for first paint.
 
 ## Deployment
 
-The app is a standard Expo project: `npx expo export --platform web` produces a
-static bundle, or use EAS Build for native binaries. Set `EXPO_PUBLIC_*`
-variables per environment and leave `EXPO_PUBLIC_MOCK=0` in production.
+### Vercel (web build)
+
+The repo ships `vercel.json`, so importing the project is enough — no dashboard
+build settings to configure.
+
+| Setting | Value |
+| --- | --- |
+| Install | `npm ci` |
+| Build | `npx expo export --platform web` |
+| Output | `dist` |
+| Node | `22.x` (from `engines` in `package.json`) |
+
+`app.json` sets `web.output: "single"`, so the export is a client-rendered
+single-page bundle. `vercel.json` rewrites every non-file request to
+`index.html`, which is what makes deep links like `/ride/abc123` work on a
+hard refresh. Hashed bundles under `/_expo/` and `/assets/` are cached
+immutably; `index.html` is always revalidated so a redeploy is picked up.
+
+Set these in **Vercel → Project → Settings → Environment Variables** (they are
+inlined at build time, so redeploy after changing them):
+
+```
+EXPO_PUBLIC_API_URL=https://blasa-api.onrender.com/api/v1
+EXPO_PUBLIC_MOCK=0
+EXPO_PUBLIC_SENTRY_DSN=            # optional
+EXPO_PUBLIC_SENTRY_ENVIRONMENT=production
+```
+
+Then add the Vercel domain to the backend's `CORS_ALLOWED_ORIGINS`
+(e.g. `https://blasa.vercel.app`) or the browser build cannot call the API.
+
+```bash
+vercel            # preview deployment
+vercel --prod     # production
+```
+
+### Native builds
+
+Use EAS Build for iOS/Android binaries. Leave `EXPO_PUBLIC_MOCK=0` in production.

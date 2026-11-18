@@ -59,5 +59,8 @@
     "typecheck": "tsc --noEmit",
     "sync:types": "node ./scripts/sync-shared-types.mjs"
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  }
 }

@@ -38,6 +38,7 @@ yarn-error.*
 
 # tooling
 .workbuddy-ai/
+.vercel
 
 # typescript
 *.tsbuildinfo
