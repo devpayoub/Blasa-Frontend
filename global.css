@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Blasa palette — 60/30/10: cream canvas, navy structure, orange accent */
+    --bg: 240 231 213; /* #F0E7D5 cream */
+    --surface: 250 246 236; /* #FAF6EC lifted cream */
+    --fg: 19 41 75; /* #13294B navy */
+    --muted: 95 105 125;
+    --faint: 148 146 140;
+    --line: 224 216 199;
+    --accent: 255 106 31; /* #FF6A1F orange */
+    --accent-strong: 209 77 0; /* #D14D00 — small text on accentSoft */
+    --accent-soft: 255 227 209; /* #FFE3D1 */
+    --on-accent: 19 41 75; /* navy label on orange */
+    --deal: 191 54 30;
+    --warning: 173 116 0;
+    --cream: 240 231 213;
+    --navy: 19 41 75;
+  }
+
+  .dark:root {
+    /* Navy becomes the canvas; cream becomes text; orange is untouched */
+    --bg: 9 22 42; /* #09162A deep navy */
+    --surface: 19 41 75; /* #13294B brand navy as card */
+    --fg: 240 231 213;
+    --muted: 164 164 158;
+    --faint: 118 122 128;
+    --line: 40 54 74;
+    --accent: 255 106 31;
+    --accent-strong: 255 138 77;
+    --accent-soft: 61 44 32;
+    --on-accent: 19 41 75;
+    --deal: 232 101 74;
+    --warning: 240 168 64;
+    --cream: 240 231 213;
+    --navy: 19 41 75;
+  }
+
+  /* Web only (react-native-web renders views as divs/inputs). Native uses the
+     Field's own focus border instead. */
+  [role='button']:focus-visible,
+  a:focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+    border-radius: 9999px;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+  }
+
+  /* react-native-web does not deliver focus/blur to React's synthetic
+     handlers here, so the Field shell paints its own focus ring from CSS. */
+  .field-shell:focus-within {
+    border-color: rgb(var(--accent));
+  }
+}
